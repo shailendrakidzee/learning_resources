@@ -5,6 +5,13 @@ class SettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Settings"),
+      ),
+      body: SingleChildScrollView(
+        child: Column(),
+      )
+    );
   }
 }

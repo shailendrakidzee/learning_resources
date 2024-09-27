@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'Settings.dart';
-import 'alerts.dart';
-import 'contacts.dart';
+import 'settings/Settings.dart';
+import 'alert/alerts.dart';
 import 'home/homepage.dart';
-import 'inbox_tab.dart';
 
 class MainPage extends StatefulWidget {
   final int index;
@@ -13,17 +11,13 @@ class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-
-
 class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
-
   final List<Widget> _children = [
     const HomePage(),
     const AlertsPage(),
     const SettingPage(),
   ];
-
   @override
   void initState() {
     _currentIndex = widget.index;
@@ -35,31 +29,30 @@ class _MainPageState extends State<MainPage> {
     return WillPopScope(
       onWillPop: () async {
         bool willLeave = false;
-         HomePage();
+         const HomePage();
         // show the confirm dialog
         await showDialog(
             context: context,
             builder: (_) => AlertDialog(
               title: const Text('Are you sure want to leave?'),
               actions: [
+                TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('No',style: TextStyle(color: Colors.black),)),
                 MaterialButton(
                     shape:  RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0)),
-                    color: const Color(0xfffD12121),
+                    // color: const Color(0xffD12121),
                     onPressed: () {
                       willLeave = true;
                       Navigator.of(context).pop();
                     },
-                    child: const Text('Yes',style: TextStyle(color: Colors.white),)),
-                TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('No',style: TextStyle(color: Colors.black),))
+                    child: const Text('Yes',style: TextStyle(color: Colors.black),))
               ],
             ));
         return willLeave;
       },
       child: Scaffold(
-
         drawer:  Drawer(
           child: ListView(
             children: [
@@ -88,7 +81,7 @@ class _MainPageState extends State<MainPage> {
                 title: const Text('Home'),
                 onTap: () {
                   Navigator.pop(context);
-                 // Get.to(()=>const HomePage());
+                  Get.to(()=>const HomePage());
                 },
               ),
               ListTile(
@@ -98,7 +91,7 @@ class _MainPageState extends State<MainPage> {
                 title: const Text('Alerts'),
                 onTap: () {
                   Navigator.pop(context);
-                 // Get.to(()=>const AlertsPage());
+                  Get.to(()=>const AlertsPage());
                 },
               ),
               ListTile(
@@ -108,8 +101,15 @@ class _MainPageState extends State<MainPage> {
                 title: const Text('Settings'),
                 onTap: () {
                   Navigator.pop(context);
-                 // Get.to(()=>const SettingPage());
+                  Get.to(()=>const SettingPage());
                 },
+              ),
+              ListTile(
+                title:const  Align(
+                   alignment: FractionalOffset.bottomRight,
+                    child: Text('Current version   0.0.1',style:
+                    TextStyle(color:Colors.grey,fontSize: 16.0,fontWeight: FontWeight.bold),)),
+                onTap: () {},
               ),
             ],
           ),
@@ -128,7 +128,6 @@ class _MainPageState extends State<MainPage> {
           selectedFontSize: 12,
           onTap: onTabTapped,
           currentIndex: _currentIndex,
-
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
